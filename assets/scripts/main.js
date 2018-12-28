@@ -56,7 +56,8 @@ function checkAccount(address){
             trigger: 'hover',
             placement: 'top'
         }); 
-        handleOutcome(); 
+        handleOutcome();
+        loadTransactions(address)
     }).catch(error => {
         if (error.message == "actNotFound"){
             console.log('Account is Disabled');
@@ -76,9 +77,34 @@ function checkAccount(address){
     })
 }
 
+function loadTransactions(_address){
+    console.log('loading transactions for: ', _address)
+
+    return api.getTransactions(_address).then(transaction => {
+        $('.history-screen').show();
+
+        for (let index = 0; index < transaction.length; index++) {
+            const element = transaction[index];
+            let newwe = $('.history-screen').find('.history-template').clone().removeClass('history-template');
+            console.log(element.address , _address)
+            if (element.address != _address) {
+                console.log('matches')
+                $(newwe).find('.amount').parent().addClass('text-success').removeClass('text-danger')
+                $(newwe).find('.tofro').html('from:')
+            }
+            $(newwe).find('.amount').html(element.outcome.deliveredAmount.value)
+            $(newwe).find('.address').html(element.specification.destination.address.substring(0,16)+'...').attr('title',element.specification.destination.address)
+            $('.history-screen').append(newwe)
+        }
+        $('.history-screen').find('.history-template').hide();;
+        console.log(transaction)
+      });
+
+}
+
 function init(){
     // Connect to API
-    const server = 'wss://ws01.casinocoin.org:4443';
+    const server = 'wss://ws03.casinocoin.org:4443';
     api = new casinocoin.CasinocoinAPI({server:server});
     api.connect().then(function(a){
         console.log('Connected to CasinoCoin Server: ', server);
