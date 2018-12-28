@@ -1,27 +1,25 @@
 function createNewWallet(){
+    // Generate a wallet via API
     wallet = api.generateAddress();
-    chrome.storage.sync.set({address: wallet.address}, () => {});
-    chrome.storage.sync.set({secret: wallet.secret}, () => {
-        checkAccount(wallet.address)
-    });
 
-    $('.sign-in-screen').hide()
-    $('.spinner-title').html('Creating Your Wallet...')
-    $('.spinner-desc').html('This only takes a second or two.');
+    // Save Wallet Credentials to Chrome
+    chrome.storage.sync.set({address: wallet.address}, () => {
+        chrome.storage.sync.set({secret: wallet.secret}, () => {
+
+            // Log In
+            checkAccount(wallet.address);
+        });
+    });
 }
 
 function loadExistingWallet(){
-    
     $('.sign-in-screen').hide()
     $('.import-screen').show()
 }
 
 function importAcccount(){
-
     
-    $('.import-screen').hide()
-    $('.spinner-title').html('Importing Your Wallet...')
-    $('.spinner-desc').html('This only takes a second or two.');
+    $('.import-screen').hide();
 
     let address = $('.input_address').val();
     let secret  = $('.input_secret').val();
@@ -35,7 +33,6 @@ function importAcccount(){
 function cancelLoading(){
     $('.sign-in-screen').show()
     $('.import-screen').hide()
-
 }
 
 function checkAccount(address){
@@ -44,8 +41,6 @@ function checkAccount(address){
     $('.spinner-title').html('Loading Your Wallet...')
     $('.spinner-desc').html('This only takes a second or two.');
 
-    
-
     function handleOutcome(){
         $('.account_address').html(address);
         $('.spinner-screen').hide()
@@ -53,7 +48,7 @@ function checkAccount(address){
     }
 
     api.getAccountInfo(address).then(info => {
-        console.log("accountInfo", info);
+        console.log("Account is Activated", info);
         $('.csc-balance').html(info.cscBalance)
         $(".account-badge").popover({
             content: '<span class="copy">click to copy account address</span>',
@@ -63,8 +58,8 @@ function checkAccount(address){
         }); 
         handleOutcome(); 
     }).catch(error => {
-        console.log(error);
         if (error.message == "actNotFound"){
+            console.log('Account is Disabled');
             $('.account-badge').addClass('badge-warning')    
             $(".account-badge").popover({
                 title: 'Account Disabled',
@@ -74,27 +69,28 @@ function checkAccount(address){
                 placement: 'top'
             }); 
         }
+        else {
+            console.log(error)
+        }
         handleOutcome();
     })
 }
 
 function init(){
     // Connect to API
-    api = new casinocoin.CasinocoinAPI({server:'wss://ws01.casinocoin.org:4443'});
-    api.connect().then(function(){
-        
-        console.log('connected');
+    const server = 'wss://ws01.casinocoin.org:4443';
+    api = new casinocoin.CasinocoinAPI({server:server});
+    api.connect().then(function(a){
+        console.log('Connected to CasinoCoin Server: ', server);
         // Does the user have a wallet
         chrome.storage.sync.get(['address'], function(result) {
             if(result.address != undefined && result.address != null){
-
-                checkAccount(result.address)
-                
+                console.log('Wallet found in Storage: ', result.address);
+                checkAccount(result.address);
             }
             else {
-
+                console.log('No Wallet found in Storage');
                 $('.sign-in-screen').show()
-
             };
     });
     });
@@ -104,7 +100,10 @@ function init(){
     document.getElementById("importAccount").addEventListener("click", loadExistingWallet);
     document.getElementById("cancelLoad").addEventListener("click", cancelLoading);
     document.getElementById("submitLoad").addEventListener("click", importAcccount);
-    $('.account-badge').click(e => {
+    $('.account-badge').click(copyAccountToClipboard)
+}
+
+function copyAccountToClipboard(e){
         console.log(e.target.innerHTML)
         function copyToClipboard(element) {
             var $temp = $("<input>");
@@ -115,9 +114,9 @@ function init(){
             $('.copy').html('address copied to clipboard')
         }
         copyToClipboard(e.target)
-    })
-    
 }
+
+
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
     init()
