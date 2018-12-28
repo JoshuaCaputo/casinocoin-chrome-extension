@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/styles/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/styles/main.css">
+
+    <title>CasinoCoin - Wallet</title>
+  </head>
+  <body>
+
+    <div class="row px-2 pt-3">
+        <div class="col-6">
+            <img width="100%" src="assets/img/casinocoin-logo-color.png">
+        </div>
+        <div class="col-6 text-right">
+            <div class="dropdown">
+                <button style="font-size:10px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Main Network
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Main Network</a>
+                    <a class="dropdown-item" href="#">Test Network</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="spinner-screen text-center mx-auto pt-3 ">
+        <img class="carc flip" width="50px" height="50px" src="assets/img/icon.png">
+        <div class="col-12 pt-2">
+            <p class="m-0 p-0 text-dark font-weight-bold spinner-title" style="font-size:20px;">Welcome!</p>
+            <p class="m-0 p-0 text-muted font-weight-light spinner-desc" style="font-size:16px;">The gateway to the future of gaming</p>
+        </div>
+        <hr>
+    </div>
+
+    <div class="sign-in-screen pb-3" style="display:none;">
+        <div class="mx-auto px-2 w-75 pt-1 text-center">
+            <button class="btn btn-danger w-100 mb-2" id="createAccount">Create a New Wallet</button>
+            <span class="text-muter" style="font-size:10px"> - or - </span>
+            <button class="btn btn-default w-100 mt-1" id="importAccount">Import an Existing Wallet</button>
+        </div>
+    </div>
+        <div class="import-screen w-100" style="display:none;">
+            <div class="mx-auto px-2 w-75 pt-1 text-left bg-secodary">
+                    <label style="font-size:12px;">Account Address</label>
+                    <input class="form-control input_address" type="text">
+                    <label style="font-size:12px;">Account Secret</label>
+                    <input class="form-control input_secret" type="text">
+                    <label style="font-size:12px;"></label>
+
+                    <button class="btn btn-secondary w-100 mt-1" id="submitLoad">Import Wallet</button>
+                    <button class="btn btn-default w-100 mt-1" id="cancelLoad">Cancel</button>
+
+            </div>
+        </div>
+        <div class="main-screen text-center mx-auto " style="display:none;">
+                <span class="account_address badge badge-secondary account-badge pointer"></span>
+                <hr>
+                <h1 class="text-muted font-weight-light mb-0 pb-0 mb-3"><span class="csc-balance">0</span> <small>CSC</small></h1>
+                <button class="btn btn-outline-secondary w-25 mt-1 p-2" id="depositFunds">Deposit</button>
+                <button class="btn btn-outline-secondary w-25 mt-1 ml-2 p-2" id="depositFunds">Send</button>
+                <hr>
+        </div>
+        <div class="history-screen text-left mx-auto px-2 d-none" style="height:200px !important; max-height: 200px !important; overflow-y: scroll; overflow-x: hidden; display: none;">
+                <span class="font-weight-bold">History</span>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-4 my-auto text-danger">1 CSC</div>
+                    <div class="col-4  my-auto">to: address </div>
+                    <div class="col-4 my-auto">SUCCESS</div>
+                </div>
+                <hr>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script src="assets/scripts/vendor/lodash.js"></script>
+    <script src="assets/scripts/vendor/casinocoin-latest.js"></script>
+    <script src="assets/scripts/vendor/jquery-3.3.1.slim.min.js"></script>
+    <script src="assets/scripts/vendor/popper.min.js"></script>
+    <script src="assets/scripts/vendor/bootstrap.min.js"></script>
+    <script src="assets/scripts/main.js">
+    </script>
+  </body>
+</html>
