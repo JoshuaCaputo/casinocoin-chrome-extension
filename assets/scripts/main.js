@@ -40,9 +40,21 @@ function checkAccount(address){
     $('.sign-in-screen').hide()
     $('.spinner-title').html('Loading Your Wallet...')
     $('.spinner-desc').html('This only takes a second or two.');
+    $('.deposit-address').val(address)
+    $('#qrcode').empty();
+    var qrcode = new QRCode("qrcode", {
+        text: address,
+        width: 200,
+        height: 200,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    $('#qrcode').find('img').addClass('m-auto')
+
 
     function handleOutcome(){
-        $('.account_address').html(address);
+        $('.account_address').html(address.substring(0,16)+'...').attr('title', address);
         $('.spinner-screen').hide()
         $('.main-screen').show()
     }
@@ -102,6 +114,31 @@ function loadTransactions(_address){
 
 }
 
+function toggleDepositScreen(toggle){
+    if (toggle == 1){
+        $('.history-screen').show();
+        $('.main-screen').show();
+        $('.deposit-screen').hide();
+    }
+    else {
+        $('.history-screen').hide();
+        $('.main-screen').hide();
+        $('.deposit-screen').show();
+    }
+}
+function toggleSendScreen(toggle){
+    if (toggle == 1){
+        $('.history-screen').show();
+        $('.main-screen').show();
+        $('.send-screen').hide();
+    }
+    else {
+        $('.history-screen').hide();
+        $('.main-screen').hide();
+        $('.send-screen').show();
+    }
+}
+
 function init(){
     // Connect to API
     const server = 'wss://ws03.casinocoin.org:4443';
@@ -126,7 +163,21 @@ function init(){
     document.getElementById("importAccount").addEventListener("click", loadExistingWallet);
     document.getElementById("cancelLoad").addEventListener("click", cancelLoading);
     document.getElementById("submitLoad").addEventListener("click", importAcccount);
+    document.getElementById("depositFunds").addEventListener("click", toggleDepositScreen);
+    document.getElementById("sendFunds").addEventListener("click", toggleSendScreen);
+    document.getElementById("exitDepositFunds").addEventListener("click", function(){toggleDepositScreen(1)});
+    $('.closeSend').click( function(){toggleSendScreen(1)});
     $('.account-badge').click(copyAccountToClipboard)
+    $('.more-options').click(toggleMoreOptions)
+    $('.logOut').click(logOut)
+}
+
+function toggleMoreOptions(){
+    $(".more-send-options").toggle();
+    $('.more-options').html('more options')
+    if ($(".more-send-options").is(":visible")){
+        $('.more-options').html('less options')
+    }
 }
 
 function copyAccountToClipboard(e){
@@ -134,7 +185,7 @@ function copyAccountToClipboard(e){
         function copyToClipboard(element) {
             var $temp = $("<input>");
             $("body").append($temp);
-            $temp.val($(element).text()).select();
+            $temp.val($(element).attr('title')).select();
             document.execCommand("copy");
             $temp.remove();
             $('.copy').html('address copied to clipboard')
@@ -147,3 +198,26 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
     init()
   });
+
+  function logOut(){
+      // Save Wallet Credentials to Chrome
+      console.log('logging out')
+    chrome.storage.sync.set({address: null}, () => {
+        chrome.storage.sync.set({secret: null}, () => {
+            hideAllScreens();
+            $('.spinner-screen').show();
+                    
+            $('.spinner-title').html('Welcome!')
+            $('.spinner-desc').html('The gateway to the future of gaming');
+            $('.sign-in-screen').show()
+        });
+    });
+  }
+
+const screens = ['.sign-in-screen', '.history-screen', '.main-screen', '.send-screen', '.deposit-screen', '.spinner-screen'];
+function hideAllScreens(){
+    for (let index = 0; index < screens.length; index++) {
+        const element = screens[index];
+        $(element).hide();
+    }
+}

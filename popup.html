@@ -5,25 +5,38 @@
     <meta charset="utf-8">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+
     <link rel="stylesheet" href="assets/styles/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="assets/styles/main.css">
   </head>
   <body>
 
     <div class="row px-2 pt-3">
-        <div class="col-6">
+        <div class="col-5">
             <img width="100%" src="assets/img/casinocoin-logo-color.png">
         </div>
-        <div class="col-6 text-right">
-            <div class="dropdown">
-                <button style="font-size:10px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Main Network
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Main Network</a>
-                    <a class="dropdown-item" href="#">Test Network</a>
-                </div>
-            </div>
+        <div class="col-7 text-right">
+                <!-- <span class="dropdown" style="display:inline">
+                    <button style="font-size:10px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Main Network
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Main Network</a>
+                        <a class="dropdown-item" href="#">Test Network</a>
+                    </div>
+                </span> -->
+                <span class="dropdown">
+                    <button style="font-size:10px" class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Tools</a>
+                        <a class="dropdown-item" href="#">About Extension</a>
+                        <a class="dropdown-item logOut" href="#">Log Out</a>
+                    </div>
+                </span>
         </div>
     </div>
     <hr>
@@ -63,7 +76,7 @@
                 <img class="carc my-2" width="25px" height="25px" src="assets/img/icon.png">
                 <h1 class="text-muted font-weight-light mb-0 pb-0 mb-3"><span class="csc-balance">0</span> <small>CSC</small></h1>
                 <button class="btn btn-outline-secondary w-25 mt-1 p-2" id="depositFunds">Deposit</button>
-                <button class="btn btn-outline-secondary w-25 mt-1 ml-2 p-2" id="depositFunds">Send</button>
+                <button class="btn btn-outline-secondary w-25 mt-1 ml-2 p-2" id="sendFunds">Send</button>
                 <hr>
         </div>
         <div class="history-screen text-left mx-auto px-2" style="height:200px !important; max-height: 200px !important; overflow-y: scroll; overflow-x: hidden; display: none;">
@@ -78,10 +91,62 @@
             </div>
         </div>
     </div>
+    <div class="deposit-screen text-right mx-auto px-2" style="display:none;">
+        <h1 style="font-size:20px;" class="text-center">Deposit Funds</h1>
+        <div class="text-center pb-5">
+            <div id="qrcode" class="text-center mx-auto w-100 py-3"></div><input type="text" disabled class="form-control w-75 mx-auto deposit-address">
+            <hr>
+            <button class="btn btn-secondary w-75" id="exitDepositFunds">OK</button>
+        </div>
+    </div>
+    <div class="send-screen text-right mx-auto px-2" style="display:none;">
+        <h1 style="font-size:20px;" class="text-left">Send CSC <span style="float: right" class="pointer closeSend">x</span></h1>
+        <h1 style="font-size:14px;" class="text-left text-muted">Only send CSC to CasinoCoin addresses.</h1>
+        <hr>
+        <div class="text-left pb-5">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Recipient's address</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Amount</label>
+                  <input type="number" class="form-control" placeholder="0">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Fees</label>
+                  <input type="number" class="form-control" placeholder="0.01" value="0.01">
+                </div>
+                <div class="more-send-options" style="display:none;">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Destination Tag</label>
+                    <input type="text" class="form-control">
+                </div>
+                </div>
+                <span class="btn btn-sm btn-outline-secondary more-options w-100">more options</span>
+
+                <hr>
+                <div class="text-center">
+                    <div class="row">
+                            <div class="col-4">
+                                
+                            <button class="btn btn-default w-100 closeSend">Cancel</button>
+                            </div>
+                            <div class="col-8">
+                                
+                            <button class="btn btn-danger w-100 closeSend">Send CSC</button>
+                            </div>
+                    </div>
+                    </div>
+        </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+    <script src="assets/scripts/vendor/qrcode.min.js"></script>
     <script src="assets/scripts/vendor/lodash.js"></script>
     <script src="assets/scripts/vendor/casinocoin-latest.js"></script>
     <script src="assets/scripts/vendor/jquery-3.3.1.slim.min.js"></script>
