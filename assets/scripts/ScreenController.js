@@ -1,6 +1,7 @@
 function toggleDepositScreen(){
     if ($('.deposit-screen').is(':visible')){
         $('.history-screen').show();
+        loadTransactions(main_account)
         $('.main-screen').show();
         $('.deposit-screen').hide();
     }
@@ -13,6 +14,7 @@ function toggleDepositScreen(){
 function toggleSendScreen(){
     if ($('.send-screen').is(':visible')){
         $('.history-screen').show();
+        loadTransactions(main_account)
         $('.main-screen').show();
         $('.send-screen').hide();
     }
