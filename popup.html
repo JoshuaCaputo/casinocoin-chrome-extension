@@ -106,24 +106,24 @@
         <div class="text-left pb-5">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Recipient's address</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control r_address">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Amount</label>
-                  <input type="number" class="form-control" placeholder="0">
+                  <input type="number" class="form-control r_amount" placeholder="0">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Fees</label>
-                  <input type="number" class="form-control" placeholder="0.01" value="0.01">
+                  <input type="number" class="form-control r_fees" placeholder="0.01" value="0.01" disabled>
                 </div>
                 <div class="more-send-options" style="display:none;">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Description</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control r_desc" disabled>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Destination Tag</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control r_tag" disabled>
                 </div>
                 </div>
                 <span class="btn btn-sm btn-outline-secondary more-options w-100">more options</span>
@@ -137,7 +137,7 @@
                             </div>
                             <div class="col-8">
                                 
-                            <button class="btn btn-danger w-100 closeSend">Send CSC</button>
+                            <button class="btn btn-danger w-100 closeSend" id="commit_send">Send CSC</button>
                             </div>
                     </div>
                     </div>
@@ -152,7 +152,8 @@
     <script src="assets/scripts/vendor/jquery-3.3.1.slim.min.js"></script>
     <script src="assets/scripts/vendor/popper.min.js"></script>
     <script src="assets/scripts/vendor/bootstrap.min.js"></script>
-    <script src="assets/scripts/main.js">
-    </script>
+    <script src="assets/scripts/main.js"></script>
+    <script src="assets/scripts/WalletController.js"></script>
+    <script src="assets/scripts/ScreenController.js"></script>
   </body>
 </html>

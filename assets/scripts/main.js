@@ -1,39 +1,39 @@
-function createNewWallet(){
-    // Generate a wallet via API
-    wallet = api.generateAddress();
-
-    // Save Wallet Credentials to Chrome
-    chrome.storage.sync.set({address: wallet.address}, () => {
-        chrome.storage.sync.set({secret: wallet.secret}, () => {
-
-            // Log In
-            checkAccount(wallet.address);
+function init(){
+    // Connect to CasinoCoin Server
+    const server = 'wss://ws03.casinocoin.org:4443';
+    api = new casinocoin.CasinocoinAPI({server:server});
+    api.connect().then(function(a){
+        console.log('Connected to CasinoCoin Server:', server);
+        // Does the user have a wallet
+        chrome.storage.sync.get(['address'], function(result) {
+            const _address = result.address;
+            if(_address != undefined && _address != null){
+                console.log('Wallet found in Storage:', _address);
+                checkAccount(_address);
+            }
+            else {
+                console.log('No Wallet found in Storage');
+                $('.sign-in-screen').show();
+            };
         });
     });
-}
 
-function loadExistingWallet(){
-    $('.sign-in-screen').hide()
-    $('.import-screen').show()
-}
-
-function importAcccount(){
+    // Set up Event Listeners 
+    document.getElementById("createAccount").addEventListener("click", createNewWallet);
+    document.getElementById("importAccount").addEventListener("click", toggleImportExistingWallet);
+    document.getElementById("cancelLoad").addEventListener("click", toggleImportExistingWallet);
+    document.getElementById("submitLoad").addEventListener("click", importWallet);
+    document.getElementById("depositFunds").addEventListener("click", toggleDepositScreen);
+    document.getElementById("sendFunds").addEventListener("click", toggleSendScreen);
+    document.getElementById("commit_send").addEventListener("click", handlePressedSend);
+    document.getElementById("exitDepositFunds").addEventListener("click", toggleDepositScreen);
     
-    $('.import-screen').hide();
-
-    let address = $('.input_address').val();
-    let secret  = $('.input_secret').val();
-    
-    chrome.storage.sync.set({address: address}, () => {});
-    chrome.storage.sync.set({secret: secret}, () => {
-        checkAccount(address);
-    });
+    $('.closeSend').click(toggleSendScreen);
+    $('.account-badge').click(copyAccountToClipboard)
+    $('.more-options').click(toggleMoreOptions)
+    $('.logOut').click(logOut)
 }
 
-function cancelLoading(){
-    $('.sign-in-screen').show()
-    $('.import-screen').hide()
-}
 
 function checkAccount(address){
 
@@ -114,63 +114,7 @@ function loadTransactions(_address){
 
 }
 
-function toggleDepositScreen(toggle){
-    if (toggle == 1){
-        $('.history-screen').show();
-        $('.main-screen').show();
-        $('.deposit-screen').hide();
-    }
-    else {
-        $('.history-screen').hide();
-        $('.main-screen').hide();
-        $('.deposit-screen').show();
-    }
-}
-function toggleSendScreen(toggle){
-    if (toggle == 1){
-        $('.history-screen').show();
-        $('.main-screen').show();
-        $('.send-screen').hide();
-    }
-    else {
-        $('.history-screen').hide();
-        $('.main-screen').hide();
-        $('.send-screen').show();
-    }
-}
 
-function init(){
-    // Connect to API
-    const server = 'wss://ws03.casinocoin.org:4443';
-    api = new casinocoin.CasinocoinAPI({server:server});
-    api.connect().then(function(a){
-        console.log('Connected to CasinoCoin Server: ', server);
-        // Does the user have a wallet
-        chrome.storage.sync.get(['address'], function(result) {
-            if(result.address != undefined && result.address != null){
-                console.log('Wallet found in Storage: ', result.address);
-                checkAccount(result.address);
-            }
-            else {
-                console.log('No Wallet found in Storage');
-                $('.sign-in-screen').show()
-            };
-    });
-    });
-
-    // Set up Event Listeners 
-    document.getElementById("createAccount").addEventListener("click", createNewWallet);
-    document.getElementById("importAccount").addEventListener("click", loadExistingWallet);
-    document.getElementById("cancelLoad").addEventListener("click", cancelLoading);
-    document.getElementById("submitLoad").addEventListener("click", importAcccount);
-    document.getElementById("depositFunds").addEventListener("click", toggleDepositScreen);
-    document.getElementById("sendFunds").addEventListener("click", toggleSendScreen);
-    document.getElementById("exitDepositFunds").addEventListener("click", function(){toggleDepositScreen(1)});
-    $('.closeSend').click( function(){toggleSendScreen(1)});
-    $('.account-badge').click(copyAccountToClipboard)
-    $('.more-options').click(toggleMoreOptions)
-    $('.logOut').click(logOut)
-}
 
 function toggleMoreOptions(){
     $(".more-send-options").toggle();
@@ -197,27 +141,78 @@ function copyAccountToClipboard(e){
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
     init()
-  });
+});
 
-  function logOut(){
-      // Save Wallet Credentials to Chrome
-      console.log('logging out')
+function logOut(){
+    // Save Wallet Credentials to Chrome
+    console.log('Logging Out of Wallet')
     chrome.storage.sync.set({address: null}, () => {
-        chrome.storage.sync.set({secret: null}, () => {
-            hideAllScreens();
-            $('.spinner-screen').show();
-                    
-            $('.spinner-title').html('Welcome!')
-            $('.spinner-desc').html('The gateway to the future of gaming');
-            $('.sign-in-screen').show()
-        });
+    chrome.storage.sync.set({secret: null}, () => {
+        hideAllScreens();
+        $('.spinner-screen').show();
+        $('.spinner-title').html('Welcome!')
+        $('.spinner-desc').html('The gateway to the future of gaming');
+        $('.sign-in-screen').show()
     });
-  }
+});
+}
 
-const screens = ['.sign-in-screen', '.history-screen', '.main-screen', '.send-screen', '.deposit-screen', '.spinner-screen'];
-function hideAllScreens(){
-    for (let index = 0; index < screens.length; index++) {
-        const element = screens[index];
-        $(element).hide();
+
+
+
+function handlePressedSend() {
+    console.log('Attempting to Send a Transaction')
+    let data = {
+        address: $('.r_address').val(),
+        amount: $('.r_amount').val(),
+        fees: $('.r_fees').val(),
+        desc: $('.r_desc').val(),
+        tag: $('.r_tag').val()
     }
+    console.log(data)
+
+    chrome.storage.sync.get(['address'], function(result) {
+        if(result.address != undefined && result.address != null){
+            console.log('Sending from the wallet found in Storage: ', result.address);
+            chrome.storage.sync.get(['secret'], function(result2) {
+                if(result2.secret != undefined && result2.secret != null){
+                    console.log('using secret found in Storage: ', result2.secret);
+                    sendFromTo([result.address, result2.secret], data);
+                }
+            });
+        }
+    });
+
+}
+
+function sendFromTo(_sender, _txData){
+    
+    const payment = {
+    "source": {
+        "address": _sender[0],
+        "maxAmount": {
+        "value": _txData['amount'],
+        "currency": "CSC",
+        "counterparty": "cJzUdHEh7MF7xwzxF7Tww7H6uWvfKRX5wJ"
+        }
+    },
+    "destination": {
+        "address": _txData['address'],
+        "amount": {
+        "value": _txData['amount'],
+        "currency": "CSC",
+        "counterparty": "cJzUdHEh7MF7xwzxF7Tww7H6uWvfKRX5wJ"
+        }
+    }
+    };
+    return api.preparePayment(_sender[0], payment).then(prepared =>
+    {
+        console.log(prepared)
+        const signedTransaction = ( api.sign(prepared.txJSON, _sender[1]));
+        console.log(signedTransaction)
+        return api.submit(signedTransaction.signedTransaction)
+        .then(result => {
+            console.log(result)
+        });
+            });
 }
