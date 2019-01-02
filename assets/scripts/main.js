@@ -18,20 +18,37 @@ function init(){
         });
     });
 
-    // Set up Event Listeners 
-    document.getElementById("createAccount").addEventListener("click", createNewWallet);
-    document.getElementById("importAccount").addEventListener("click", toggleImportExistingWallet);
-    document.getElementById("cancelLoad").addEventListener("click", toggleImportExistingWallet);
-    document.getElementById("submitLoad").addEventListener("click", importWallet);
-    document.getElementById("depositFunds").addEventListener("click", toggleDepositScreen);
-    document.getElementById("sendFunds").addEventListener("click", toggleSendScreen);
-    document.getElementById("commit_send").addEventListener("click", handlePressedSend);
-    document.getElementById("exitDepositFunds").addEventListener("click", toggleDepositScreen);
-    
-    $('.closeSend').click(toggleSendScreen);
-    $('.account-badge').click(copyAccountToClipboard)
-    $('.more-options').click(toggleMoreOptions)
-    $('.logOut').click(logOut)
+    // Load Views & Set Up Event Listeners
+
+    $('[data-view="menu-bar"]').load('assets/views/menu-bar.html', () => {
+        $('.logOut').click(logOut)
+    });
+    $('[data-view="sign-in-screen"]').load('assets/views/sign-in-screen.html',() => {
+        $('#createAccount').click(createNewWallet);
+        $('#importAccount').click(toggleImportExistingWallet);
+    });
+    $('[data-view="import-screen"]').load('assets/views/import-screen.html',() => {
+        $('#submitLoad').click(importWallet);
+        $('#cancelLoad').click(toggleImportExistingWallet);
+    });
+    $('[data-view="main-screen"]').load('assets/views/main-screen.html',() => {
+        $('#depositFunds').click(toggleDepositScreen);
+        $('#sendFunds').click(toggleSendScreen);
+        $('.account-badge').click(copyAccountToClipboard)
+    });
+    $('[data-view="history-screen"]').load('assets/views/history-screen.html',() => {});
+
+    $('[data-view="deposit-screen"]').load('assets/views/deposit-screen.html',() => {
+        $('#exitDepositFunds').click(toggleDepositScreen);
+    });
+
+    $('[data-view="send-screen"]').load('assets/views/send-screen.html',() => {
+        $('#commit_send').click(handlePressedSend);
+        $('.more-options').click(toggleMoreOptions);
+        $('.closeSend').click(toggleSendScreen);
+    });
+
+    SpinnerScreenController.load();
 }
 
 
@@ -39,8 +56,7 @@ function checkAccount(address){
     main_account = address;
 
     $('.sign-in-screen').hide()
-    $('.spinner-title').html('Loading Your Wallet...')
-    $('.spinner-desc').html('This only takes a second or two.');
+    SpinnerScreenController.present(['Loading Your Wallet...', 'This only takes a second or two.']);
     $('.deposit-address').val(address)
     $('#qrcode').empty();
     var qrcode = new QRCode("qrcode", {
@@ -126,9 +142,9 @@ function logOut(){
     chrome.storage.sync.set({address: null}, () => {
     chrome.storage.sync.set({secret: null}, () => {
         hideAllScreens();
-        $('.spinner-screen').show();
-        $('.spinner-title').html('Welcome!')
-        $('.spinner-desc').html('The gateway to the future of gaming');
+
+        SpinnerScreenController.present(['Welcome!', 'The gateway to the future of gaming']);
+
         $('.sign-in-screen').show()
     });
 });

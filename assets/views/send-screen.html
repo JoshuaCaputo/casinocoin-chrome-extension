@@ -1,0 +1,46 @@
+
+
+    <div class="send-screen text-right mx-auto px-2" style="display:none;">
+            <h1 style="font-size:20px;" class="text-left">Send CSC <span style="float: right" class="pointer closeSend">x</span></h1>
+            <h1 style="font-size:14px;" class="text-left text-muted">Only send CSC to CasinoCoin addresses.</h1>
+            <hr>
+            <div class="text-left pb-5">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Recipient's address</label>
+                      <input type="text" class="form-control r_address" name="csc_tx_address">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Amount</label>
+                      <input type="number" class="form-control r_amount" placeholder="0" name="csc_tx_amount">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Fees</label>
+                      <input type="number" class="form-control r_fees" placeholder="0.01" value="0.01" name="csc_tx_fees" disabled>
+                    </div>
+                    <div class="more-send-options" style="display:none;">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Description</label>
+                        <input type="text" class="form-control r_desc" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Destination Tag</label>
+                        <input type="text" class="form-control r_tag" disabled>
+                    </div>
+                    </div>
+                    <span class="btn btn-sm btn-outline-secondary more-options w-100">more options</span>
+    
+                    <hr>
+                    <div class="text-center">
+                        <div class="row">
+                                <div class="col-4">
+                                    
+                                <button class="btn btn-default w-100 closeSend">Cancel</button>
+                                </div>
+                                <div class="col-8">
+                                    
+                                <button class="btn btn-danger w-100 closeSend" id="commit_send">Send CSC</button>
+                                </div>
+                        </div>
+                        </div>
+            </div>
+        </div>
