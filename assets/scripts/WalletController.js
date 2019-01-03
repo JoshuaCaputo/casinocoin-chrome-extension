@@ -41,8 +41,16 @@ function loadTransactions(_address){
 
 function importWallet(){
     
-    $('.import-screen').hide();
+    if (!$('.input_address').hasClass('border-success')){
+        $('.import-error-badge').html('invalid address format').show();
+        return;
+    }
+    if (!$('.input_secret').hasClass('border-success')){
+        $('.import-error-badge').html('invalid secret format').show();
+        return;
+    }
 
+    $('.import-screen').hide();
     let address = $('.input_address').val();
     let secret  = $('.input_secret').val();
     
@@ -50,4 +58,13 @@ function importWallet(){
     chrome.storage.sync.set({secret: secret}, () => {
         checkAccount(address);
     });
+}
+
+let WalletUtilities = {
+    isValidAddress: (_address) => {
+        return casinocoin.CasinocoinAddressCodec.isValidAddress(_address);
+    },
+    isValidSecret: (_secret) => {
+        return casinocoin.CasinocoinAPI['_PRIVATE'].ledgerUtils.common.isValidSecret(_secret);
+    }
 }

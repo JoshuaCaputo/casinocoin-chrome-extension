@@ -22,6 +22,7 @@ function init(){
 
     $('[data-view="menu-bar"]').load('assets/views/menu-bar.html', () => {
         $('.logOut').click(logOut)
+        $('.aboutExt').click(toggleAboutScreen)
     });
     $('[data-view="sign-in-screen"]').load('assets/views/sign-in-screen.html',() => {
         $('#createAccount').click(createNewWallet);
@@ -30,6 +31,18 @@ function init(){
     $('[data-view="import-screen"]').load('assets/views/import-screen.html',() => {
         $('#submitLoad').click(importWallet);
         $('#cancelLoad').click(toggleImportExistingWallet);
+        $('.input_address').on('input', function(){
+            $('.input_address').addClass('border-danger')
+            if (WalletUtilities.isValidAddress($('.input_address').val())){
+                $('.input_address').addClass('border-success').removeClass('border-danger');
+            }
+        })
+        $('.input_secret').on('input', function(){
+            $('.input_secret').addClass('border-danger')
+            if (WalletUtilities.isValidSecret($('.input_secret').val())){
+                $('.input_secret').addClass('border-success').removeClass('border-danger');
+            }
+        })
     });
     $('[data-view="main-screen"]').load('assets/views/main-screen.html',() => {
         $('#depositFunds').click(toggleDepositScreen);
@@ -37,7 +50,9 @@ function init(){
         $('.account-badge').click(copyAccountToClipboard)
     });
     $('[data-view="history-screen"]').load('assets/views/history-screen.html',() => {});
-
+    $('[data-view="about-screen"]').load('assets/views/about-screen.html',() => {
+        $('.closeAbout').click(toggleAboutScreen);
+    });
     $('[data-view="deposit-screen"]').load('assets/views/deposit-screen.html',() => {
         $('#exitDepositFunds').click(toggleDepositScreen);
     });
@@ -46,6 +61,18 @@ function init(){
         $('#commit_send').click(handlePressedSend);
         $('.more-options').click(toggleMoreOptions);
         $('.closeSend').click(toggleSendScreen);
+        $('.r_address').on('input', function(){
+            $('.r_address').addClass('border-danger')
+            if (WalletUtilities.isValidAddress($('.r_address').val())){
+                $('.r_address').addClass('border-success').removeClass('border-danger');
+            }
+        })
+        $('.r_amount').on('input', function(){
+            $('.r_amount').addClass('border-danger')
+            if (($('.r_amount').val() > 0)){
+                $('.r_amount').addClass('border-success').removeClass('border-danger');
+            }
+        })
     });
 
     SpinnerScreenController.load();
@@ -155,6 +182,17 @@ function logOut(){
 
 function handlePressedSend() {
     console.log('Attempting to Send a Transaction')
+
+    
+    if (!$('.r_address').hasClass('border-success')){
+        $('.send-error-badge').html('invalid address format').show();
+        return;
+    }
+    if (!$('.r_amount').hasClass('border-success')){
+        $('.send-error-badge').html('must send more than 0 CSC').show();
+        return;
+    }
+    toggleSendScreen();
     let data = {
         address: $('.r_address').val(),
         amount: $('.r_amount').val(),

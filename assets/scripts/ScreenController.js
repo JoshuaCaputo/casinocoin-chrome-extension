@@ -34,6 +34,14 @@ function toggleImportExistingWallet(){
     $('.sign-in-screen').hide()
     $('.import-screen').show()
 }
+function toggleAboutScreen(){
+    if (!$('.about-screen').is(':visible')){
+        $('.about-screen').show()
+        return;
+    }
+
+    $('.about-screen').hide()
+}
 
 const screens = ['.sign-in-screen', '.history-screen', '.main-screen', '.send-screen', '.deposit-screen', '.spinner-screen'];
 function hideAllScreens(){
