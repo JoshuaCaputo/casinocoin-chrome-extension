@@ -1,7 +1,7 @@
 {
   "name": "CasinoCoin Wallet",
   "description": "A Browser Extension for CasionCoin",
-  "version": "0.0.0.1",
+  "version": "0.0.1.1",
   "permissions": [
     "activeTab",
     "storage"
@@ -20,5 +20,5 @@
   },
   "author": "Joshua Caputo @ Be9Concepts",
   "short_name": "CSC Wallet",
-  "version_name": "Beta Release 1"
+  "version_name": "Beta Release 2"
 }

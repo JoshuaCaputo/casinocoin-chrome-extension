@@ -20,8 +20,11 @@ function init(){
 
     // Load Views & Set Up Event Listeners
 
+    SettingsScreenController.load();
+
     $('[data-view="menu-bar"]').load('assets/views/menu-bar.html', () => {
-        $('.logOut').click(logOut)
+        $('.dropdown-logout').click(logOut)
+        $('.dropdown-settings').click(SettingsScreenController.toggle)
         $('.aboutExt').click(toggleAboutScreen)
     });
     $('[data-view="sign-in-screen"]').load('assets/views/sign-in-screen.html',() => {
@@ -76,6 +79,17 @@ function init(){
         })
     });
 
+        
+    chrome.storage.sync.get(['settings'], function(result) {
+        const _settings = result.settings;
+        if (!_settings){
+            console.log('No Settings found');
+        }
+        else {
+            console.log('Settings found', _settings);
+            tools.changeTheme(_settings.theme)
+        }
+    });
     SpinnerScreenController.load();
 }
 
@@ -256,14 +270,82 @@ const tools = new function(){
     let scope = this;
 
     this.changeTheme  = (theme) => {
-        $('.bg-light').addClass('bg-dark').removeClass('bg-light');
-        $('.btn-outline-secondary').addClass('btn-outline-light')
-        $('.btn-secondary').addClass('btn-light')
-        $('.btn-default').addClass('text-light')
-        $('label').addClass('text-light')
-        $('.text-muted').addClass('text-light').removeClass('text-muted')
-        $('.text-dark').addClass('text-light').removeClass('text-dark');
-        $('.casino-coin-logo').attr('src', 'assets/img/casinocoin-logo-dark.png');
-
+        if (theme == 'dark'){
+            $('.bg-light').addClass('bg-dark').removeClass('bg-light');
+            $('.btn-outline-secondary').addClass('btn-outline-light')
+            $('.btn-secondary').addClass('btn-light')
+            $('.btn-default').addClass('text-light')
+            $('label').addClass('text-light')
+            $('.text-muted').addClass('text-secondary').removeClass('text-muted')
+            $('.text-dark').addClass('text-light').removeClass('text-dark');
+            $('.casino-coin-logo').attr('src', 'assets/img/casinocoin-logo-dark.png');
+        }
+        else if (theme == 'default'){
+            $('.casino-coin-logo').attr('src', 'assets/img/casinocoin-logo-color.png');
+            $('.bg-dark').addClass('bg-light').removeClass('bg-dark');
+            $('.btn-outline-secondary').removeClass('btn-outline-light');
+            $('.btn-secondary').removeClass('btn-light')
+            $('.btn-default').removeClass('text-light')
+            $('label').removeClass('text-light')
+            $('.text-secondary').addClass('text-muted').removeClass('text-secondary')
+            $('.text-light').addClass('text-dark').removeClass('text-light');
+        }
     }
+}
+
+
+var SettingsScreenController = new function(){
+    var controller = this;
+    
+    controller.element = '.settings-screen';
+
+    controller.load = () => {
+        $('[data-view="settings-screen"]').load('assets/views/settings-screen.html', () => {
+            $(controller.element+' .btn-dismiss').click(controller.toggle);
+            $(controller.element+' .btn-confirm').click(controller.saveSettings);
+            $(controller.element+' .theme-input').change(controller.updated);
+        });
+    }
+
+    controller.loadSetting = () => {
+        
+        chrome.storage.sync.get(['settings'], function(result) {
+            const _settings = result.settings;
+            if (!_settings){
+                console.log('No Settings found');
+            }
+            else {
+                console.log('Settings found', _settings);
+                $(controller.element+' .theme-input').val(_settings.theme)
+            }
+            $(controller.element).show();
+        });
+    }
+
+    controller.saveSettings = () => {
+        let settings = {
+            theme: $(controller.element+' .theme-input').val()
+        }
+        chrome.storage.sync.set({settings: settings}, () => {
+            controller.toggle();
+        });
+    }
+
+    controller.updated = () => {
+        let settings = {
+            theme: $(controller.element+' .theme-input').val()
+        }
+        tools.changeTheme(settings.theme)
+    }
+
+    controller.toggle = (_flag) => {
+        if ($(controller.element).is(':visible')){
+            $(controller.element).hide();
+        }
+        else {
+            controller.loadSetting();
+        }
+    }
+
+    return controller;
 }
