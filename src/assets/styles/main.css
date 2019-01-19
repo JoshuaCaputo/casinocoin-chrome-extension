@@ -5,22 +5,19 @@ body {
 .pointer {
     cursor: pointer;
 }
-            .dropdown-item {
-                font-size:10px;
-            }
-            
-            .carc {
-                
-                transition: transform 1s;
-                          }
-                          .flip {    -webkit-animation-name: thumb;
-                  -webkit-animation-duration: 2000ms;
-                  -webkit-transform-origin:50% 50%;
-                  -webkit-animation-iteration-count: infinite; /* The magic keyword for infinite*/
-                  -webkit-animation-timing-function: linear;
-                          }
-                          @-webkit-keyframes thumb {
-                  0% { -webkit-transform: rotateY(0deg); }
-                  50% { -webkit-transform: rotateY(-180deg); }
-                  100% { -webkit-transform: rotateY(-360deg); }
-              }
+.dropdown-item {
+    font-size:10px;
+}
+.flip {   
+    transition: transform 1s;
+    -webkit-animation-name: flip;
+    -webkit-animation-duration: 2000ms;
+    -webkit-transform-origin:50% 50%;
+    -webkit-animation-iteration-count: infinite; /* The magic keyword for infinite*/
+    -webkit-animation-timing-function: linear;
+}
+@-webkit-keyframes flip {
+    0% { -webkit-transform: rotateY(0deg); }
+    50% { -webkit-transform: rotateY(-180deg); }
+    100% { -webkit-transform: rotateY(-360deg); }
+}

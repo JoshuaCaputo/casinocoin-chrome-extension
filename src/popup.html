@@ -3,7 +3,6 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <!-- Bootstrap CSS -->
@@ -11,17 +10,20 @@
     <!-- Custom Extension CSS -->
     <link rel="stylesheet" href="assets/styles/main.css">
   </head>
-  <body>
-
-    <div data-view="menu-bar"></div>
-    <div data-view="spinner-screen"></div>
-    <div data-view="sign-in-screen"></div>
-    <div data-view="import-screen"></div>
-    <div data-view="main-screen"></div>
-    <div data-view="history-screen"></div>
-    <div data-view="deposit-screen"></div>
-    <div data-view="send-screen"></div>
-    <div data-view="about-screen"></div>
+  <body class="bg-light">
+    <header>
+        <div data-view="menu-bar"></div>
+    </header>
+    <main class="py-3">
+        <div data-view="spinner-screen"></div>
+        <div data-view="sign-in-screen"></div>
+        <div data-view="import-screen"></div>
+        <div data-view="main-screen"></div>
+        <div data-view="history-screen"></div>
+        <div data-view="deposit-screen"></div>
+        <div data-view="send-screen"></div>
+        <div data-view="about-screen"></div>
+    </main>
 
     <!-- Vendor JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

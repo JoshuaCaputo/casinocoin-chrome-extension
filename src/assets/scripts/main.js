@@ -25,8 +25,8 @@ function init(){
         $('.aboutExt').click(toggleAboutScreen)
     });
     $('[data-view="sign-in-screen"]').load('assets/views/sign-in-screen.html',() => {
-        $('#createAccount').click(createNewWallet);
-        $('#importAccount').click(toggleImportExistingWallet);
+        $('.btn-createAccount').click(createNewWallet);
+        $('.btn-importAccount').click(toggleImportExistingWallet);
     });
     $('[data-view="import-screen"]').load('assets/views/import-screen.html',() => {
         $('#submitLoad').click(importWallet);
@@ -58,6 +58,7 @@ function init(){
     });
 
     $('[data-view="send-screen"]').load('assets/views/send-screen.html',() => {
+        
         $('#commit_send').click(handlePressedSend);
         $('.more-options').click(toggleMoreOptions);
         $('.closeSend').click(toggleSendScreen);
@@ -248,4 +249,21 @@ function sendFromTo(_sender, _txData){
             console.log(result)
         });
             });
+}
+
+
+const tools = new function(){
+    let scope = this;
+
+    this.changeTheme  = (theme) => {
+        $('.bg-light').addClass('bg-dark').removeClass('bg-light');
+        $('.btn-outline-secondary').addClass('btn-outline-light')
+        $('.btn-secondary').addClass('btn-light')
+        $('.btn-default').addClass('text-light')
+        $('label').addClass('text-light')
+        $('.text-muted').addClass('text-light').removeClass('text-muted')
+        $('.text-dark').addClass('text-light').removeClass('text-dark');
+        $('.casino-coin-logo').attr('src', 'assets/img/casinocoin-logo-dark.png');
+
+    }
 }
