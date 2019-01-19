@@ -101,6 +101,7 @@ function checkAccount(address){
         $('.account_address').html(address.substring(0,16)+'...').attr('title', address);
         $('.spinner-screen').hide()
         $('.main-screen').show()
+        $('.dropdown-logout').show();
     }
 
     api.getAccountInfo(address).then(info => {
@@ -172,7 +173,8 @@ function logOut(){
 
         SpinnerScreenController.present(['Welcome!', 'The gateway to the future of gaming']);
 
-        $('.sign-in-screen').show()
+        $('.sign-in-screen').show();
+        $('.dropdown-logout').hide();
     });
 });
 }
