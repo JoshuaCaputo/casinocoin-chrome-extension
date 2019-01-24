@@ -1,8 +1,14 @@
 
 document.body.onload = () => {
-    $('[data-view="menu-bar"]').load('assets/views/menu-bar.html', () => {
-
+    let mbv = '[data-view="menu-bar"]';
+    $(mbv).load('assets/views/menu-bar.html', () => {
         // Get buttons in the menu-bar and setup listeners for clicks
+        $(mbv+' .dropdown-settings').click(function(){
+            ViewManager.showView(6, true) 
+        })
+        $(mbv+' .dropdown-about').click(function(){ 
+            ViewManager.showView(5, true) 
+        })
 
         ViewManager.loadViews();
 
@@ -18,7 +24,6 @@ function checkForWallet(){
         if (address!=null && address!=undefined){
             console.log('user has a wallet', address);
             ViewManager.showView(1);
-            console.log(DashboardViewController)
         }
         else {
             console.log('user has no wallet');
@@ -30,14 +35,32 @@ function checkForWallet(){
 var ViewManager = new function(){
     let scope = this;
     this.views = [];
+    this.previousView = undefined;
     this.currentView = undefined;
+
+    this.exclusions = [5, 6];
+
+    this.isExcluded = (view_id) => {
+        return (scope.exclusions.includes(view_id));
+    }
 
     this.loadViews = function(){
         scope.views.forEach(view => { view.load(); });
     }
 
-    this.showView = function(view_id){
+    this.showPreviousView = () =>{
+        scope.showView(scope.previousView)
+    }
 
+    this.setPrevious = id =>{
+        if (ViewManager.isExcluded(ViewManager.currentView)) return;
+        if (!id) scope.previousView = scope.currentView;
+    }
+
+    this.showView = function(view_id, persistPreviousPage){
+        
+        if (persistPreviousPage) scope.setPrevious();
+        scope.currentView = view_id;
         let arrangements = [[1,7], [0], [2], [3], [4], [5], [6], [7]];
 
         for (let index = 0; index < scope.views.length; index++) {
@@ -243,9 +266,13 @@ ImportScreenController.dismiss = function(){
 };
 
 var AboutScreenController = new ConfirmDismissViewController('about-screen')
-var SettingsScreenController = new ConfirmDismissViewController('settings-screen')
-SettingsScreenController.onConfirm = function(){
-    console.log(arguments[0])
+AboutScreenController.confirm = function(){
+    ViewManager.showPreviousView()
 };
+var SettingsScreenController = new ConfirmDismissViewController('settings-screen')
+SettingsScreenController.confirm = function(){
+    ViewManager.showPreviousView()
+};
+SettingsScreenController.dismiss = function(){ ViewManager.showPreviousView()};
 
 var SpinnerScreenController = new SpinnerScreenViewController('spinner-screen')
