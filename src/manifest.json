@@ -2,17 +2,30 @@
   "name": "CasinoCoin Wallet",
   "description": "A Browser Extension for CasionCoin",
   "version": "0.0.1.1",
+  "manifest_version": 2,
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+4",
+        "mac": "MacCtrl+Shift+4"
+      },
+      "description": "Opens popup.html"
+    }
+  },
+  "background": {
+    "scripts": ["assets/scripts/notification-manager.js","assets/scripts/vendor/lodash.js", "assets/scripts/vendor/casinocoin-latest.js", "assets/scripts/casinocoin-manager.js", "assets/scripts/background.js"],
+    "persistent": false
+  },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "browser_action": {
       "default_title": "CasinoCoin Wallet",
       "default_icon": "assets/img/icon.png",
-      "default_popup": "popup.html"
+      "default_popup": "popup2.html"
   },
-  "manifest_version": 2,
-  "default-locale": "en",
   "icons": { 
     "16": "assets/img/icon16.png",
     "48": "assets/img/icon48.png",
@@ -20,5 +33,11 @@
   },
   "author": "Joshua Caputo @ Be9Concepts",
   "short_name": "CSC Wallet",
-  "version_name": "Beta Release 2"
+  "version_name": "Beta Release 2",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/scripts/content.js"]
+    }
+  ]
 }

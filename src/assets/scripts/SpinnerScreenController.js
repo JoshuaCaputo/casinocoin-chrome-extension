@@ -1,6 +1,6 @@
 let SpinnerScreenController = new function(){
     var scope = this;
-    this.element = '.spinner-screen';
+    this.element = '[data-view="spinner-screen"]';
     this.load = function(){
         $('[data-view="spinner-screen"]').load('assets/views/spinner-screen.html');
     }

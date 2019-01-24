@@ -1,37 +1,45 @@
-<div class="send-screen text-right mx-auto px-2" style="display:none;">
-        <h1 style="font-size:20px;" class="text-left text-dark">Send Coins <span style="float: right" class="pointer closeSend">x</span></h1>
-        <h1 style="font-size:14px;" class="text-left text-muted">Only send CSC to CasinoCoin addresses.</h1>
+<div class="mx-auto text-center">
+        <h1 style="font-size:20px;" class="text-dark px-2">Send CSC</h1>
+        <h1 style="font-size:14px;" class="text-muted px-2">only send coins to a valid CSC address</h1>
         <hr>
-        <div class="text-center">
-            <span class="send-error-badge badge badge-danger" style="display:none;">error!</span>
-        </div>
-        <div class="text-left pb-5">
+        <div class="px-2 text-left">
+            
+    <form class="d-block h-100 text-left">
             <div class="form-group">
-                <label for="exampleInputEmail1">Recipient's address</label>
-                <input type="text" class="form-control r_address" name="csc_tx_address">
+                <label class="w-100">Recipient's Address:<b style="float:right;" class="pr-1"></b></label>
+                <input type="text" class="form-control" maxlength="64" name="address">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Amount</label>
-                <input type="number" class="form-control r_amount" placeholder="0" name="csc_tx_amount">
+                <label class="w-100">Payment Amount:<b style="float:right;" class="pr-1">CSC</b></label>
+                <input type="number" class="form-control" name="amount">
             </div>
-            <!-- <div class="more-send-options" style="display:none;">
+            <div class="data-toggle" style="display:none;" class="pt-2">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Destination Tag</label>
-                    <input type="text" class="form-control r_tag">
+                    <label>Description</label>
+                    <input type="text" class="form-control" name="description">
                 </div>
-            </div>
-            <span class="btn btn-sm btn-outline-secondary more-options w-100">more options</span> -->
+                <div class="form-group">
+                    <label>Destination Tag</label>
+                    <input type="text" class="form-control" name="tag">
+                </div>
+            </div>        
+            <div class="btn btn-light btn-sm w-100 btn-toggle">advanced settings</div>
+    
+        </form>
+        
+        </div>
+        <hr>
+        <div class="" style="height:55px !important; display: block;"></div>
 
-            <hr>
-            <div class="text-center">
-                <div class="row">
+        <div class=" fixed-footer">
+        <hr>
+            <div class="row px-3 pb-3">
                     <div class="col-4">
-                        <button class="btn btn-default w-100 closeSend">Cancel</button>
+                        <button class="btn btn-light w-100 btn-dismiss">Cancel</button>
                     </div>
                     <div class="col-8">
-                        <button class="btn btn-danger w-100" id="commit_send">Send CSC</button>
+                        <button class="btn btn-danger w-100 btn-confirm">Send</button>
                     </div>
-                </div>
             </div>
         </div>
     </div>
