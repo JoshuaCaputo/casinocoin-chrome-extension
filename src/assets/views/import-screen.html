@@ -1,16 +1,23 @@
-<div class="import-screen w-100" style="display:none;">
-    <div class="text-center">
-        <span class="import-error-badge badge badge-danger" style="display:none;">error!</span>
+<div class="mx-auto">
+        <h1 style="font-size:20px;" class="text-center text-dark">Import Existing Wallet</h1>
+        <hr>
+        <div class="px-2">
+                <label class="font-weight-bold mt-2">Account Address</label>
+                <input type="text" class="form-control w-100">
+                <label class="font-weight-bold mt-2">Account Secret</label>
+                <input type="text" class="form-control w-100">
+        </div>
+        <hr>
+    
+        <div class=" fixed-footer">
+        <hr>
+            <div class="row px-3 pb-3">
+                    <div class="col-4">
+                        <button class="btn btn-light w-100 btn-dismiss">Cancel</button>
+                    </div>
+                    <div class="col-8">
+                        <button class="btn btn-danger w-100 btn-confirm">Import Wallet</button>
+                    </div>
+            </div>
+        </div>
     </div>
-    <div class="mx-auto px-2 w-75 pt-1 text-left bg-secodary">
-            <label style="font-size:12px;">Account Address</label>
-            <input class="form-control input_address" type="text">
-            <label style="font-size:12px;">Account Secret</label>
-            <input class="form-control input_secret" type="text">
-            <label style="font-size:12px;"></label>
-
-            <button class="btn btn-secondary w-100 mt-1" id="submitLoad">Import Wallet</button>
-            <button class="btn btn-default w-100 mt-1" id="cancelLoad">Cancel</button>
-
-    </div>
-</div>

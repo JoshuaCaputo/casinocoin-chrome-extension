@@ -1,8 +1,24 @@
-<div class="deposit-screen text-right mx-auto px-2 text-dark" style="display:none;">
-    <h1 style="font-size:20px;" class="text-center">Deposit Funds</h1>
-    <div class="text-center pb-5">
-        <div id="qrcode" class="text-center mx-auto w-100 py-3"></div><input type="text" disabled class="form-control w-75 mx-auto deposit-address">
-        <hr>
-        <button class="btn btn-secondary w-75" id="exitDepositFunds">OK</button>
+<div class="text-right mx-auto">
+    <h1 style="font-size:20px;" class="text-center text-dark">Deposit</h1>
+    <hr>
+    <div class="px-2">
+        <div class="row text-center pt-4">
+            <div class="col-12">
+                <div class="mx-auto text-center" id="qr" style="height:200px;">
+
+                </div>
+            </div>
+        </div>
+        <input class="form-control input-address w-100 text-center mt-4" disabled="disabled" value="Account Address"></input>
+    </div>
+    <hr>
+
+    <div class=" fixed-footer">
+    <hr>
+        <div class="row px-3 pb-3">
+            <div class="col-12">
+                <button class="btn btn-danger w-100 btn-confirm">Done</button>
+            </div>
+        </div>
     </div>
 </div>
